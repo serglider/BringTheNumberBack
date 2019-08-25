@@ -17,7 +17,7 @@ function InputItem(i, ix, y, {dw, dh, dg}, c, tc) {
     };
 
     function render() {
-        ctx.fillStyle = isActive ? COLORS.c5 : COLORS.c4;
+        ctx.fillStyle = isActive ? COLORS.c5 : c;
         ctx.fillRect(x, y, dw, dh);
         ctx.fillStyle = tc;
         ctx.font = font;

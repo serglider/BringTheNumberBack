@@ -10,16 +10,16 @@
     "sourceType": "module"
   },
   "globals": {
+    "ResultDisplay": true,
     "Robot": true,
     "Line": true,
     "Text": true,
     "getConfigs": true,
     "World": true,
-    "GuessInput": true,
-    "ScoreInput": true,
+    "InputSet": true,
     "Game": true,
     "COLORS": true,
-    "KEYS": true,
+    "RESULTS": true,
     "InputItem": true,
     "console": true
   },

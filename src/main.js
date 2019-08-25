@@ -14,3 +14,4 @@ function createStaticItem({Class, config}) {
     const el = new Class(config);
     world.add(el);
 }
+

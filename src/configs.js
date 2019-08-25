@@ -30,10 +30,11 @@ function getConfigs(bounds) {
             {
                 Class: Text,
                 config: {
-                    text: 'GAME TITLE',
+                    text: 'BRING THE NUMBER BACK!',
                     x: centerX,
                     y: digitBlockWidth,
                     color: COLORS.c5,
+                    stroke: COLORS.c2,
                     fontSize: digitBlockWidth,
                     fontFamily: 'fantasy'
                 }
@@ -46,6 +47,7 @@ function getConfigs(bounds) {
                     x: rightBlockX,
                     y: subTitleY,
                     color: COLORS.c5,
+                    stroke: COLORS.c2,
                     fontSize: subTitleFS,
                     fontWeight: 'bold',
                     align: 'left',
@@ -59,6 +61,36 @@ function getConfigs(bounds) {
                     x: centerX - digitBlockWidth,
                     y: subTitleY,
                     color: COLORS.c5,
+                    stroke: COLORS.c2,
+                    fontSize: subTitleFS,
+                    fontWeight: 'bold',
+                    align: 'right',
+                    fontFamily: 'system-ui'
+                }
+            },
+            {
+                Class: Text,
+                config: {
+                    text: 'SCORE',
+                    x: rightBlockX1,
+                    y: subTitleY,
+                    color: COLORS.c5,
+                    stroke: COLORS.c2,
+                    fontSize: subTitleFS,
+                    fontWeight: 'bold',
+                    align: 'left',
+                    fontFamily: 'system-ui'
+                }
+            },
+
+            {
+                Class: Text,
+                config: {
+                    text: 'SCORE',
+                    x: leftBlockX1 + 2 * digitBlockWidth + digitBlockGap,
+                    y: subTitleY,
+                    color: COLORS.c5,
+                    stroke: COLORS.c2,
                     fontSize: subTitleFS,
                     fontWeight: 'bold',
                     align: 'right',

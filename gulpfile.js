@@ -38,11 +38,11 @@ gulp.task('compile', ['clean'], function() {
     return gulp.src(['./src/*.js'])
         .pipe(sourcemaps.init())
         .pipe(concat('g.js'))
-        // .pipe(uglify())
-        // .pipe(sourcemaps.write('.', {
-        //     includeContent: false,
-        //     sourceRoot: './src'
-        // }))
+        .pipe(uglify())
+        .pipe(sourcemaps.write('.', {
+            includeContent: false,
+            sourceRoot: './src'
+        }))
         .pipe(gulp.dest('./dist'));
 });
 

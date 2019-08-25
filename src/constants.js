@@ -6,9 +6,8 @@ const COLORS = {
     c5: '#DB5C43'
 };
 
-const KEYS = {
-    DIGIT: 'digit',
-    ARROW_LEFT: 'ArrowLeft',
-    ARROW_RIGHT: 'ArrowRight',
-    ENTER: 'Enter'
+const RESULTS = {
+    USER: 'You won!.A genuine triumph of the human mind.Hit Space to beat that piece of metal again',
+    ROBOT: 'TRY AGAIN',
+    DRAW: 'It\'s a draw.You almost there.Hit Space to try again.'
 };

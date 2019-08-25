@@ -1,26 +1,29 @@
-function GuessInput(x, y, {dw, dh, dg}) {
+function InputSet(type, x, y, {dw, dh, dg}, bgColor) {
 
-    let digits = [];
-    const digitNumber = 4;
-    const digitInputs = Array.from({length: digitNumber}, (_, i) => {
-        return new InputItem(i, x, y, {dw, dh, dg}, COLORS.c4, COLORS.c1);
-    });
+    let onSubmit, digitNumber, isValid;
     let activeIndex = null;
-    let onSubmit;
+    let digits = [];
+    const isScore = type === 'score';
+    if (isScore) {
+        digitNumber = 2;
+        isValid = isValidScore;
+    } else {
+        digitNumber = 4;
+        isValid = isValidGuess;
+    }
+
+    const digitInputs = Array.from({length: digitNumber}, (_, i) => {
+        return new InputItem(i, x, y, {dw, dh, dg}, bgColor, COLORS.c1);
+    });
 
     return {
         render,
-        setDigits,
         setContext,
         setOnSubmit,
+        setDigits,
         activate,
         reset
     };
-
-    function reset() {
-        digits = [];
-        digitInputs.forEach((d, i) => d.setDigit(''));
-    }
 
     function onKey(e) {
         if (isActive()) {
@@ -37,6 +40,11 @@ function GuessInput(x, y, {dw, dh, dg}) {
         }
     }
 
+    function reset() {
+        digits = [];
+        digitInputs.forEach((d, i) => d.setDigit(''));
+    }
+
     function submit() {
         if (digits.length === digitNumber) {
             digitInputs[activeIndex].deactivate();
@@ -46,18 +54,23 @@ function GuessInput(x, y, {dw, dh, dg}) {
         }
     }
 
-    function setDigit(dig) {
-        if (digits.includes(dig)) {
+    function setDigit(value) {
+        if (!isValid(value)) {
             return;
         }
-        digits[activeIndex] = dig;
-        digitInputs[activeIndex].setDigit(dig);
+        const oldValue = digits[activeIndex];
+        digits[activeIndex] = value;
+        if (isScore && digits[0] < digits[1]) {
+            digits[activeIndex] = oldValue;
+            return;
+        }
+        digitInputs[activeIndex].setDigit(value);
         moveActiveRight();
     }
 
     function moveActiveRight() {
         digitInputs[activeIndex].deactivate();
-        activeIndex = (activeIndex + 1) % 4;
+        activeIndex = (activeIndex + 1) % digitNumber;
         digitInputs[activeIndex].activate();
     }
 
@@ -65,13 +78,21 @@ function GuessInput(x, y, {dw, dh, dg}) {
         digitInputs[activeIndex].deactivate();
         activeIndex -= 1;
         if (activeIndex < 0) {
-            activeIndex = 3;
+            activeIndex = digitNumber - 1;
         }
         digitInputs[activeIndex].activate();
     }
 
     function isActive() {
         return activeIndex !== null;
+    }
+
+    function isValidScore(value) {
+        return (value >= 0) && (value <= 4);
+    }
+
+    function isValidGuess(value) {
+        return !(digits.includes(value));
     }
 
     function isDigit(value) {
@@ -84,12 +105,12 @@ function GuessInput(x, y, {dw, dh, dg}) {
         digitInputs[activeIndex].activate();
     }
 
-    function setDigits(digits) {
-        digitInputs.forEach((d, i) => d.setDigit(digits[i]));
-    }
-
     function setOnSubmit(callback) {
         onSubmit = callback;
+    }
+
+    function setDigits(digits) {
+        digitInputs.forEach((d, i) => d.setDigit(digits[i]));
     }
 
     function render() {

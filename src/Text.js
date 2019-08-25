@@ -3,7 +3,8 @@ function Text({
                   fontFamily = 'fantasy',
                   fontSize = 14,
                   align = 'center',
-                  color, x, y, fontWeight
+                  strokeWidth = 5,
+                  color, stroke, x, y, fontWeight
               }) {
 
     let ctx;
@@ -17,10 +18,16 @@ function Text({
 
     function render() {
         ctx.save();
-        ctx.fillStyle = color;
         ctx.font = font;
         ctx.textAlign = align;
+        if (stroke) {
+            ctx.strokeStyle = stroke;
+            ctx.lineWidth = strokeWidth;
+            ctx.strokeText(text, x, y);
+        }
+        ctx.fillStyle = color;
         ctx.fillText(text, x, y);
+
         ctx.restore();
     }
 
