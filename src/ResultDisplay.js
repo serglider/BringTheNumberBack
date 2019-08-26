@@ -47,6 +47,7 @@ function ResultDisplay(cx, cy, {dw, dh}) {
                 alpha -= speed;
                 if (alpha < 0) {
                     title = '';
+                    alpha = 1;
                 }
             } else {
                 alpha += speed;
@@ -62,6 +63,7 @@ function ResultDisplay(cx, cy, {dw, dh}) {
     }
 
     function show(result) {
+        isHiding = false;
         [title, text1, text2] = result.split('.');
         setTimeout(hide, hideTimeout);
     }

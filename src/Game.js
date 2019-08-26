@@ -1,4 +1,4 @@
-function Game(world, configs) {
+function Game(world, keyboard, configs) {
 
     const {
         centerX,
@@ -15,6 +15,7 @@ function Game(world, configs) {
     const resultDisplay = new ResultDisplay(centerX, centerY, digitBlockConfig);
     let step;
     let userGuesses;
+    let unsubscribe;
     let currentUserInput;
     let currentUserScore;
 
@@ -30,12 +31,13 @@ function Game(world, configs) {
 
     function onUserGuess(guess) {
         const strGuess = guess.join('');
-
+        unsubscribe();
         if (userGuesses.includes(strGuess)) {
-            alert('You already have this guess');
+            showResult(RESULTS.DUPLICATE_GUESS);
             currentUserInput.reset();
-            currentUserInput.activate();
+            initUserInput(currentUserInput, onUserGuess);
         } else {
+
             userGuesses.push(strGuess);
             const score = robot.getScore(guess);
             addScoreInput(score);
@@ -43,21 +45,25 @@ function Game(world, configs) {
     }
 
     function onUserScore(score) {
+        unsubscribe();
         currentUserScore = score;
-        robot.handleScore(score);
-        addGuessInput();
-
+        const isUserScoreError = robot.handleScore(score);
+        if (isUserScoreError) {
+            showResult(RESULTS.SCORE_ERROR);
+        } else {
+            addGuessInput();
+        }
     }
 
     function addScoreInput(score) {
         const y = initBlockY + step * stepHeight;
         const x = score ? rightBlockX1 : leftBlockX1;
         const bgColor = score ? COLORS.c3 : COLORS.c4;
-        const scoreInput = new InputSet('score', x, y, digitBlockConfig, bgColor);
+        const scoreInput = new InputSet(INPUT_TYPES.SCORE, x, y, digitBlockConfig, bgColor);
         world.add(scoreInput);
         if (score) {
             scoreInput.setDigits(score);
-            step++;
+            nextStep();
             const winner = getWinner(score);
             if (winner) {
                 showResult(winner);
@@ -67,8 +73,14 @@ function Game(world, configs) {
             }
 
         } else {
-            scoreInput.setOnSubmit(onUserScore);
-            scoreInput.activate();
+            initUserInput(scoreInput, onUserScore);
+        }
+    }
+
+    function nextStep() {
+        step++;
+        if (step === 1) {
+            world.add(resultDisplay);
         }
     }
 
@@ -76,20 +88,24 @@ function Game(world, configs) {
         const y = initBlockY + step * stepHeight;
         const x = guess ? leftBlockX : rightBlockX;
         const bgColor = guess ? COLORS.c3 : COLORS.c4;
-        const guessInput = new InputSet('guess', x, y, digitBlockConfig, bgColor);
+        const guessInput = new InputSet(INPUT_TYPES.GUESS, x, y, digitBlockConfig, bgColor);
         world.add(guessInput);
         if (guess) {
             guessInput.setDigits(guess);
             addScoreInput();
         } else {
-            guessInput.setOnSubmit(onUserGuess);
-            guessInput.activate();
-            currentUserInput = guessInput;
+            initUserInput(guessInput, onUserGuess);
         }
     }
 
+    function initUserInput(input, callback) {
+        input.activate(callback);
+        unsubscribe = keyboard.subscribe(input.onKey);
+        currentUserInput = input;
+    }
+
     function showResult(result) {
-        world.add(resultDisplay);
+        world.moveToTop(resultDisplay);
         resultDisplay.show(result);
     }
 

@@ -21,10 +21,11 @@ function Robot() {
 
     function handleScore(score) {
         restPermutations = reducePermutations(restPermutations, currentGuess, score[0], score[1]);
+        return restPermutations.length === 0;
     }
 
     function getScore(guess) {
-        return scoreGuess(secret, guess);
+        return scoreGuess(secret, guess); 
     }
 
     function getGuess() {

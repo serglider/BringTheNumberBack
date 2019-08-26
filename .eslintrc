@@ -10,6 +10,7 @@
     "sourceType": "module"
   },
   "globals": {
+    "Keyboard": true,
     "ResultDisplay": true,
     "Robot": true,
     "Line": true,
@@ -20,6 +21,7 @@
     "Game": true,
     "COLORS": true,
     "RESULTS": true,
+    "INPUT_TYPES": true,
     "InputItem": true,
     "console": true
   },

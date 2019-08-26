@@ -4,41 +4,45 @@ function World() {
     const FPS_INTERVAL = 0.3;
     let objects = [];
     let dynamicObjects = [];
-    let isStopped = true;
     let tickTime = performance.now();
-    let lastTicks = 0;
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.lineJoin = 'round';
 
-    this.getBounds = () => {
+    return {
+        getBounds,
+        moveToTop,
+        add,
+        reset
+    };
+
+    function getBounds() {
         return [canvas.width, canvas.height];
-    };
+    }
 
-    this.getContext = () => {
-        return ctx;
-    };
-
-    this.add = obj => {
+    function add(obj) {
         obj.setContext(ctx);
         objects.push(obj);
         if (typeof obj.update === 'function') {
             dynamicObjects.push(obj);
         }
-    };
+    }
 
-    this.reset = () => {
-        isStopped = false;
+    function moveToTop(obj) {
+        objects = objects.filter(item => item !== obj);
+        objects.push(obj);
+    }
+
+    function reset() {
         objects = [];
+        dynamicObjects = [];
         tickTime = performance.now();
-        lastTicks = 0;
         loop(tickTime);
-    };
+    }
 
     function loop(t) {
-        if (lastTicks > 3) return;
         const elapsed = t - tickTime;
         update(t);
         if (elapsed > FPS_INTERVAL) {
@@ -46,7 +50,6 @@ function World() {
             clear();
             render();
         }
-        if (isStopped) lastTicks++;
         requestAnimationFrame(loop);
     }
 
@@ -55,9 +58,7 @@ function World() {
     }
 
     function update(t) {
-        for (let i = dynamicObjects.length - 1; i >= 0; i--) {
-            dynamicObjects[i].update(t);
-        }
+        dynamicObjects.forEach(obj => obj.update(t));
     }
 
     function render() {

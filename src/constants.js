@@ -7,7 +7,14 @@ const COLORS = {
 };
 
 const RESULTS = {
-    USER: 'You won!.A genuine triumph of the human mind.Hit Space to beat that piece of metal again',
-    ROBOT: 'TRY AGAIN',
-    DRAW: 'It\'s a draw.You almost there.Hit Space to try again.'
+    USER: 'You won!.A genuine triumph of the human mind!.Hit Space to beat that piece of metal again',
+    ROBOT: 'You lose.Don\'t sweat.Hit Space to try again.',
+    DRAW: 'It\'s a draw.You almost there.Hit Space to try again.',
+    DUPLICATE_GUESS: 'Oops!.You already have this variant.Think harder))',
+    SCORE_ERROR: 'Oops!.There is an error in your scores.Hit Space to restart the game.'
+};
+
+const INPUT_TYPES = {
+    GUESS: 'guess',
+    SCORE: 'score'
 };

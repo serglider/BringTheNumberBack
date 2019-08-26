@@ -3,13 +3,14 @@ function InputSet(type, x, y, {dw, dh, dg}, bgColor) {
     let onSubmit, digitNumber, isValid;
     let activeIndex = null;
     let digits = [];
-    const isScore = type === 'score';
-    if (isScore) {
+
+    const isScoreInput = type === INPUT_TYPES.SCORE;
+    if (isScoreInput) {
         digitNumber = 2;
-        isValid = isValidScore;
+        isValid = isValidScoreItem;
     } else {
         digitNumber = 4;
-        isValid = isValidGuess;
+        isValid = isValidGuessItem;
     }
 
     const digitInputs = Array.from({length: digitNumber}, (_, i) => {
@@ -19,24 +20,21 @@ function InputSet(type, x, y, {dw, dh, dg}, bgColor) {
     return {
         render,
         setContext,
-        setOnSubmit,
         setDigits,
         activate,
+        onKey,
         reset
     };
 
     function onKey(e) {
-        if (isActive()) {
-            const dig = Number(e.key);
-            if (isDigit(dig)) {
-                setDigit(dig);
-            } else if (e.key === 'ArrowRight') {
-                moveActiveRight();
-            } else if (e.key === 'ArrowLeft') {
-                moveActiveLeft();
-            } else if (e.key === 'Enter') {
-                submit();
-            }
+        if (e.isDigit) {
+            setDigit(e.digit);
+        } else if (e.isArrowRight) {
+            moveActiveRight();
+        } else if (e.isArrowLeft) {
+            moveActiveLeft();
+        } else if (e.isEnter) {
+            submit();
         }
     }
 
@@ -49,7 +47,6 @@ function InputSet(type, x, y, {dw, dh, dg}, bgColor) {
         if (digits.length === digitNumber) {
             digitInputs[activeIndex].deactivate();
             activeIndex = null;
-            window.removeEventListener('keyup', onKey);
             onSubmit(digits);
         }
     }
@@ -60,7 +57,7 @@ function InputSet(type, x, y, {dw, dh, dg}, bgColor) {
         }
         const oldValue = digits[activeIndex];
         digits[activeIndex] = value;
-        if (isScore && digits[0] < digits[1]) {
+        if (isScoreInput && !isValidScore()) {
             digits[activeIndex] = oldValue;
             return;
         }
@@ -83,30 +80,32 @@ function InputSet(type, x, y, {dw, dh, dg}, bgColor) {
         digitInputs[activeIndex].activate();
     }
 
-    function isActive() {
-        return activeIndex !== null;
+    function isValidScore() {
+        if (isNum(digits[0]) && isNum(digits[1])) {
+            if (digits[0] === 4 && digits[1] === 3) {
+                return false;
+            }
+            return digits[0] >= digits[1];
+        }
+        return true;
     }
 
-    function isValidScore(value) {
-        return (value >= 0) && (value <= 4);
-    }
-
-    function isValidGuess(value) {
-        return !(digits.includes(value));
-    }
-
-    function isDigit(value) {
+    function isNum(value) {
         return Number.isInteger(value);
     }
 
-    function activate() {
-        window.addEventListener('keyup', onKey);
-        activeIndex = 0;
-        digitInputs[activeIndex].activate();
+    function isValidScoreItem(value) {
+        return value <= 4;
     }
 
-    function setOnSubmit(callback) {
+    function isValidGuessItem(value) {
+        return !(digits.includes(value));
+    }
+
+    function activate(callback) {
         onSubmit = callback;
+        activeIndex = 0;
+        digitInputs[activeIndex].activate();
     }
 
     function setDigits(digits) {
