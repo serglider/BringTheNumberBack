@@ -18,6 +18,7 @@ function getConfigs(bounds) {
             return getRest(digitBlockHeight);
         }
 
+        const digitBlockFont = `bold ${digitBlockHeight * 0.618}px monospace`;
         const subTitleFS = Math.round(digitBlockWidth * 0.618);
         const subTitleY = digitBlockWidth * 3;
         const initBlockY = subTitleY + digitBlockHeight;
@@ -113,7 +114,8 @@ function getConfigs(bounds) {
             digitBlockConfig: {
                 dw: digitBlockWidth,
                 dh: digitBlockHeight,
-                dg: digitBlockGap
+                dg: digitBlockGap,
+                df: digitBlockFont
             },
             staticItems
         };

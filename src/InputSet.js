@@ -1,4 +1,4 @@
-function InputSet(type, x, y, {dw, dh, dg}, bgColor) {
+function InputSet(type, x, y, blockConfig, bgColor, texture) {
 
     let onSubmit, digitNumber, isValid;
     let activeIndex = null;
@@ -14,7 +14,7 @@ function InputSet(type, x, y, {dw, dh, dg}, bgColor) {
     }
 
     const digitInputs = Array.from({length: digitNumber}, (_, i) => {
-        return new InputItem(i, x, y, {dw, dh, dg}, bgColor, COLORS.c1);
+        return new InputItem(i, x, y, blockConfig, bgColor, COLORS.c1, texture);
     });
 
     return {
@@ -40,7 +40,7 @@ function InputSet(type, x, y, {dw, dh, dg}, bgColor) {
 
     function reset() {
         digits = [];
-        digitInputs.forEach((d, i) => d.setDigit(''));
+        digitInputs.forEach(d => d.setDigit(''));
     }
 
     function submit() {

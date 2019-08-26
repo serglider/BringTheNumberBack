@@ -1,12 +1,13 @@
-function InputItem(i, ix, y, {dw, dh, dg}, c, tc) {
+function InputItem(i, ix, y, {dw, dh, dg, df}, c, tc, texture) {
 
-    let ctx;
-    let text = '';
     const x = ix + i * (dw + dg);
     const tx = x + dw / 2;
     const ty = y + dh / 2;
-    const font = `bold ${dh * 0.618}px monospace`;
+    let ctx;
+    let text = '';
     let isActive = false;
+    let isAnim = false;
+    let dy = dh * 10;
 
     return {
         render,
@@ -19,9 +20,13 @@ function InputItem(i, ix, y, {dw, dh, dg}, c, tc) {
     function render() {
         ctx.fillStyle = isActive ? COLORS.c5 : c;
         ctx.fillRect(x, y, dw, dh);
-        ctx.fillStyle = tc;
-        ctx.font = font;
-        ctx.fillText(text, tx, ty);
+        if (isAnim) {
+            ctx.drawImage(texture, 0, dy, dw, dh, x, y, dw, dh);
+        } else {
+            ctx.fillStyle = tc;
+            ctx.font = df;
+            ctx.fillText(text, tx, ty);
+        }
     }
 
     function setContext(c) {
@@ -38,5 +43,18 @@ function InputItem(i, ix, y, {dw, dh, dg}, c, tc) {
 
     function setDigit(d) {
         text = d;
+        isAnim = true;
+        const start = {dy};
+        const end = {dy: d * dh};
+        tween(start, end, 300, 'outElastic', onProgress, onComplete);
+
+        function onProgress() {
+            dy = start.dy;
+        }
+
+        function onComplete() {
+            dy = d * dh;
+            isAnim = false;
+        }
     }
 }

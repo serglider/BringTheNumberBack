@@ -38,6 +38,3 @@ function toggleHelp() {
     help.style.display = isHelpShown ? 'table' : 'none';
 }
 
-// todo: help, game reset, errors
-
-

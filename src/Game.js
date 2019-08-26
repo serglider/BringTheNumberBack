@@ -13,6 +13,8 @@ function Game(world, keyboard, configs) {
     } = configs;
     const robot = new Robot();
     const resultDisplay = new ResultDisplay(centerX, centerY, digitBlockConfig);
+    const userTexture = createTexture(digitBlockConfig, COLORS.c4, COLORS.c1);
+    const robotTexture = createTexture(digitBlockConfig, COLORS.c3, COLORS.c1);
     let step;
     let userGuesses;
     let unsubscribe;
@@ -59,7 +61,8 @@ function Game(world, keyboard, configs) {
         const y = initBlockY + step * stepHeight;
         const x = score ? rightBlockX1 : leftBlockX1;
         const bgColor = score ? COLORS.c3 : COLORS.c4;
-        const scoreInput = new InputSet(INPUT_TYPES.SCORE, x, y, digitBlockConfig, bgColor);
+        const texture = score ? robotTexture : userTexture;
+        const scoreInput = new InputSet(INPUT_TYPES.SCORE, x, y, digitBlockConfig, bgColor, texture);
         world.add(scoreInput);
         if (score) {
             scoreInput.setDigits(score);
@@ -77,18 +80,17 @@ function Game(world, keyboard, configs) {
         }
     }
 
-    function nextStep() {
-        step++;
-        if (step === 1) {
-            world.add(resultDisplay);
-        }
-    }
+    // const userTexture = createTexture(digitBlockConfig, COLORS.c4, COLORS.c1);
+    // const robotTexture = createTexture(digitBlockConfig, COLORS.c3, COLORS.c1);
+
+
 
     function addGuessInput(guess) {
         const y = initBlockY + step * stepHeight;
         const x = guess ? leftBlockX : rightBlockX;
         const bgColor = guess ? COLORS.c3 : COLORS.c4;
-        const guessInput = new InputSet(INPUT_TYPES.GUESS, x, y, digitBlockConfig, bgColor);
+        const texture = guess ? robotTexture : userTexture;
+        const guessInput = new InputSet(INPUT_TYPES.GUESS, x, y, digitBlockConfig, bgColor, texture);
         world.add(guessInput);
         if (guess) {
             guessInput.setDigits(guess);
@@ -126,5 +128,12 @@ function Game(world, keyboard, configs) {
 
     function isWinScore(score) {
         return score[0] === 4 && score[1] === 4;
+    }
+
+    function nextStep() {
+        step++;
+        if (step === 1) {
+            world.add(resultDisplay);
+        }
     }
 }
