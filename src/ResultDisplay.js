@@ -1,14 +1,15 @@
-function ResultDisplay(cx, cy, {dw, dh}) {
+function ResultDisplay(cx, cy, {dw, dh, df}) {
 
     let ctx;
     let title = '';
     let text1 = '';
     let text2 = '';
     let alpha = 0;
-    let speed = 0.03;
+    let alpha1 = 0;
     const hideTimeout = 4000;
-    let isHiding = false;
-    const titleFont = `bold ${dh * 0.618}px monospace`;
+    const inTweenDuration = 300;
+    const inTweenDuration1 = 1200;
+    const outTweenDuration = 1200;
     const textFont = `bold ${dh * 0.618 * 0.618}px monospace`;
     const w = dw * 16;
     const h = dh * 4;
@@ -18,11 +19,17 @@ function ResultDisplay(cx, cy, {dw, dh}) {
 
     return {
         render,
-        update,
+        reset,
         setContext,
         show,
         hide
     };
+
+    function reset() {
+        alpha = 0;
+        alpha1 = 0;
+        title = '';
+    }
 
     function render() {
         if (title) {
@@ -30,31 +37,19 @@ function ResultDisplay(cx, cy, {dw, dh}) {
             ctx.globalAlpha = alpha;
             ctx.fillStyle = COLORS.c2;
             ctx.fillRect(x, y, w, h);
+
+            ctx.lineWidth = 6;
+            ctx.strokeStyle = COLORS.c4;
+            ctx.strokeRect(x, y, w, h);
+
+            ctx.globalAlpha = alpha1;
             ctx.fillStyle = COLORS.c3;
-            ctx.font = titleFont;
+            ctx.font = df;
             ctx.fillText(title, cx, cy - dh);
             ctx.font = textFont;
             ctx.fillText(text1, cx, cy);
-            ctx.font = textFont;
             ctx.fillText(text2, cx, cy + dh);
             ctx.restore();
-        }
-    }
-
-    function update() {
-        if (title) {
-            if (isHiding) {
-                alpha -= speed;
-                if (alpha < 0) {
-                    title = '';
-                    alpha = 1;
-                }
-            } else {
-                alpha += speed;
-                if (alpha > 1) {
-                    alpha = 1;
-                }
-            }
         }
     }
 
@@ -63,12 +58,35 @@ function ResultDisplay(cx, cy, {dw, dh}) {
     }
 
     function show(result) {
-        isHiding = false;
         [title, text1, text2] = result.split('.');
-        setTimeout(hide, hideTimeout);
+        const start = {alpha: 0};
+        const end = {alpha: 1};
+        const start1 = {alpha1: 0};
+        const end1 = {alpha1: 1};
+        tween(start, end, inTweenDuration, EASINGS.IN_CUBIC, onProgress, () => {});
+        tween(start1, end1, inTweenDuration1, EASINGS.OUT_CUBIC, onProgress1, onComplete);
+
+        function onProgress() {
+            alpha = start.alpha;
+        }
+
+        function onProgress1() {
+            alpha1 = start.alpha1;
+        }
+
+        function onComplete() {
+            setTimeout(hide, hideTimeout);
+        }
     }
 
     function hide() {
-        isHiding = true;
+        const start = {alpha: 1, alpha1: 1};
+        const end = {alpha: 0, alpha1: 0};
+        tween(start, end, outTweenDuration, EASINGS.IN_CUBIC, onProgress, reset);
+
+        function onProgress() {
+            alpha = start.alpha;
+            alpha1 = start.alpha1;
+        }
     }
 }

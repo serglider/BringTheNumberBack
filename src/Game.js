@@ -27,6 +27,7 @@ function Game(world, keyboard, configs) {
         step = 0;
         userGuesses = [];
         robot.start();
+        resultDisplay.reset();
         const guess = robot.getGuess();
         addGuessInput(guess);
     }
@@ -79,11 +80,6 @@ function Game(world, keyboard, configs) {
             initUserInput(scoreInput, onUserScore);
         }
     }
-
-    // const userTexture = createTexture(digitBlockConfig, COLORS.c4, COLORS.c1);
-    // const robotTexture = createTexture(digitBlockConfig, COLORS.c3, COLORS.c1);
-
-
 
     function addGuessInput(guess) {
         const y = initBlockY + step * stepHeight;

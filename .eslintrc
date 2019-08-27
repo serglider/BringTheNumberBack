@@ -20,6 +20,7 @@
     "World": true,
     "InputSet": true,
     "Game": true,
+    "EASINGS": true,
     "COLORS": true,
     "RESULTS": true,
     "INPUT_TYPES": true,

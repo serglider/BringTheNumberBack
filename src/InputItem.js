@@ -3,6 +3,7 @@ function InputItem(i, ix, y, {dw, dh, dg, df}, c, tc, texture) {
     const x = ix + i * (dw + dg);
     const tx = x + dw / 2;
     const ty = y + dh / 2;
+    const tweenDuration = 300;
     let ctx;
     let text = '';
     let isActive = false;
@@ -46,7 +47,7 @@ function InputItem(i, ix, y, {dw, dh, dg, df}, c, tc, texture) {
         isAnim = true;
         const start = {dy};
         const end = {dy: d * dh};
-        tween(start, end, 300, 'outElastic', onProgress, onComplete);
+        tween(start, end, tweenDuration, EASINGS.OUT_ELASTIC, onProgress, onComplete);
 
         function onProgress() {
             dy = start.dy;

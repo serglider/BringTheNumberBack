@@ -10,6 +10,8 @@ keyboard.subscribe(onKey);
 
 
 function init() {
+    keyboard.removeAll();
+    keyboard.subscribe(onKey);
     world.reset();
     configs.staticItems.forEach(createStaticItem);
     game.start();

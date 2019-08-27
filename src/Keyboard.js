@@ -1,23 +1,18 @@
 function Keyboard() {
 
-    const listeners = {};
+    let listeners = {};
     let keys = [];
-    let isLocked = false;
 
     window.addEventListener('keyup', handleKeyUp);
 
     return {
         subscribe,
-        lock,
-        unlock
+        removeAll
     };
 
-    function lock() {
-        isLocked = true;
-    }
-
-    function unlock() {
-        isLocked = false;
+    function removeAll() {
+        listeners = {};
+        keys = [];
     }
 
     function handleKeyUp(e) {

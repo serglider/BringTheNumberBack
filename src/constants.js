@@ -18,3 +18,9 @@ const INPUT_TYPES = {
     GUESS: 'guess',
     SCORE: 'score'
 };
+
+const EASINGS = {
+    IN_CUBIC: 'inCubic',
+    OUT_CUBIC: 'outCubic',
+    OUT_ELASTIC: 'outElastic'
+};
