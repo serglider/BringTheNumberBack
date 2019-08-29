@@ -3,6 +3,7 @@ function InputSet(type, x, y, blockConfig, bgColor, texture) {
     let onSubmit, digitNumber, isValid;
     let activeIndex = null;
     let digits = [];
+    let ctx;
 
     const isScoreInput = type === INPUT_TYPES.SCORE;
     if (isScoreInput) {
@@ -12,7 +13,7 @@ function InputSet(type, x, y, blockConfig, bgColor, texture) {
         digitNumber = 4;
         isValid = isValidGuessItem;
     }
-
+    const {bgX, bgY, bgW, bgH} = getBgBounds(digitNumber, x, y, blockConfig);
     const digitInputs = Array.from({length: digitNumber}, (_, i) => {
         return new InputItem(i, x, y, blockConfig, bgColor, COLORS.c1, texture);
     });
@@ -25,6 +26,30 @@ function InputSet(type, x, y, blockConfig, bgColor, texture) {
         onKey,
         reset
     };
+
+    function activate(callback) {
+        onSubmit = callback;
+        activeIndex = 0;
+        digitInputs[activeIndex].activate();
+    }
+
+    function setDigits(digits) {
+        digitInputs.forEach((d, i) => d.setDigit(digits[i]));
+    }
+
+    function render() {
+        ctx.save();
+        ctx.fillStyle = COLORS.c1;
+        ctx.globalAlpha = 0.618;
+        ctx.fillRect(bgX, bgY, bgW, bgH);
+        ctx.restore();
+        digitInputs.forEach(d => d.render());
+    }
+
+    function setContext(c) {
+        ctx = c;
+        digitInputs.forEach(d => d.setContext(c));
+    }
 
     function onKey(e) {
         if (e.isDigit) {
@@ -102,21 +127,13 @@ function InputSet(type, x, y, blockConfig, bgColor, texture) {
         return !(digits.includes(value));
     }
 
-    function activate(callback) {
-        onSubmit = callback;
-        activeIndex = 0;
-        digitInputs[activeIndex].activate();
-    }
-
-    function setDigits(digits) {
-        digitInputs.forEach((d, i) => d.setDigit(digits[i]));
-    }
-
-    function render() {
-        digitInputs.forEach(d => d.render());
-    }
-
-    function setContext(c) {
-        digitInputs.forEach(d => d.setContext(c));
+    function getBgBounds(n, x, y, {dw, dh, dg}) {
+        const padding = 6;
+        return {
+            bgX: x - padding,
+            bgY: y - padding,
+            bgW: n * dw + (n - 1) * dg + padding * 2,
+            bgH: dh + padding * 2
+        };
     }
 }

@@ -10,6 +10,7 @@
     "sourceType": "module"
   },
   "globals": {
+    "Help": true,
     "Background": true,
     "Keyboard": true,
     "ResultDisplay": true,

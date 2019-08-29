@@ -21,8 +21,18 @@ function Game(world, keyboard, configs) {
     let unsubscribe;
     let currentUserInput;
     let currentUserScore;
+    let isBgAnim = true;
 
-    return {start};
+    return {start, toggleAnimation};
+
+    function toggleAnimation() {
+        isBgAnim = !isBgAnim;
+        if (isBgAnim) {
+            bg.show();
+        } else {
+            bg.hide();
+        }
+    }
 
     function start() {
         step = 0;
@@ -30,7 +40,9 @@ function Game(world, keyboard, configs) {
         robot.start();
         resultDisplay.reset();
         const guess = robot.getGuess();
-        world.add(bg);
+        if (isBgAnim) {
+            world.add(bg);
+        }
         addGuessInput(guess);
     }
 

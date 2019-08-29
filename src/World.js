@@ -15,11 +15,17 @@ function World() {
         getBounds,
         moveToTop,
         add,
+        remove,
         reset
     };
 
     function getBounds() {
         return [canvas.width, canvas.height];
+    }
+    
+    function remove(obj) {
+        objects = objects.filter(item => item !== obj);
+        dynamicObjects = dynamicObjects.filter(item => item !== obj);
     }
 
     function add(obj) {

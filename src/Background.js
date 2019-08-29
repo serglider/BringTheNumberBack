@@ -3,23 +3,16 @@ function Background(configs) {
     const {
         width,
         height,
-        centerX,
         centerY
     } = configs;
     const {PI, cos, sin, abs, round, random} = Math;
     const HALF_PI = 0.5 * PI;
     const TAU = 2 * PI;
     const TO_RAD = PI / 180;
-    const rand = n => n * random();
-    const fadeInOut = (t, m) => {
-        let hm = 0.5 * m;
-        return abs((t + hm) % m - hm) / (hm);
-    };
-
     const pipeCount = 30;
     const pipePropCount = 8;
     const pipePropsLength = pipeCount * pipePropCount;
-    const turnCount = 8;
+    const turnCount = 6;
     const turnAmount = (360 / turnCount) * TO_RAD;
     const turnChanceRange = 58;
     const baseSpeed = 0.5;
@@ -27,28 +20,41 @@ function Background(configs) {
     const baseTTL = 100;
     const rangeTTL = 300;
     const baseWidth = 2;
-    const rangeWidth = 4;
-    const baseHue = 189;
-    const rangeHue = 20;
+    const rangeWidth = 6;
+    const baseHue = 51;
+    const rangeHue = 10;
 
     let ctx;
-    let center = [centerX, centerY];
     let tick = 0;
     let pipeProps;
+    let isVisible = true;
 
     const texture = document.createElement('canvas');
     const textureCtx = texture.getContext('2d');
     texture.width = width;
     texture.height = height;
-
     initPipes();
 
     return {
         update,
         render,
         reset,
+        show,
+        hide,
         setContext
     };
+
+    function show() {
+        isVisible = true;
+    }
+
+    function hide() {
+        isVisible = false;
+    }
+
+    function getColor(hue, alpha) {
+        return `hsla(${hue},49%,46%,${alpha})`;
+    }
 
     function reset() {
         tick = 0;
@@ -57,17 +63,17 @@ function Background(configs) {
     }
 
     function render() {
-        ctx.save();
-        ctx.fillStyle = COLORS.c1;
-        ctx.fillRect(0, 0, width, height);
-        ctx.restore();
-        ctx.save();
-        ctx.filter = 'blur(12px)';
-        ctx.drawImage(texture, 0, 0);
-        ctx.restore();
-        ctx.save();
-        ctx.drawImage(texture, 0, 0);
-        ctx.restore();
+        if (isVisible) {
+            ctx.save();
+            ctx.fillStyle = COLORS.c1;
+            ctx.fillRect(0, 0, width, height);
+            ctx.restore();
+            ctx.save();
+            ctx.filter = 'blur(12px)';
+            ctx.drawImage(texture, 0, 0);
+            ctx.restore();
+            ctx.drawImage(texture, 0, 0);
+        }
     }
 
     function setContext(c) {
@@ -131,11 +137,21 @@ function Background(configs) {
 
     function drawPipe(x, y, life, ttl, width, hue) {
         textureCtx.save();
-        textureCtx.strokeStyle = `hsla(${hue},54%,32%,${fadeInOut(life, ttl) * 0.125})`;
+        const alpha = fadeInOut(life, ttl) * 0.125;
+        textureCtx.strokeStyle = getColor(hue, alpha);
         textureCtx.beginPath();
         textureCtx.arc(x, y, width, 0, TAU);
         textureCtx.stroke();
         textureCtx.closePath();
         textureCtx.restore();
+    }
+
+    function rand(n) {
+        return n * random();
+    }
+
+    function fadeInOut(t, m) {
+        const hm = 0.5 * m;
+        return abs((t + hm) % m - hm) / (hm);
     }
 }

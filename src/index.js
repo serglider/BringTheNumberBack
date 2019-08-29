@@ -14,12 +14,12 @@ function init() {
 
 function go() {
     keyboard.subscribe(onKey);
-    configs.staticItems.forEach(createStaticItem);
     game.start();
+    configs.staticItems.forEach(createStaticItem);
 }
 
 function reset() {
-    keyboard.removeAll();
+    keyboard.reset();
     world.reset();
 }
 
@@ -37,6 +37,7 @@ function onKey(e) {
         help.toggle();
     } else if (e.isSpace) {
         init();
+    } else if (e.isb) {
+        game.toggleAnimation();
     }
 }
-
