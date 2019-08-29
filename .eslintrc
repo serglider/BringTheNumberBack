@@ -10,6 +10,7 @@
     "sourceType": "module"
   },
   "globals": {
+    "Background": true,
     "Keyboard": true,
     "ResultDisplay": true,
     "Robot": true,

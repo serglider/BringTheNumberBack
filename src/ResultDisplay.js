@@ -5,7 +5,7 @@ function ResultDisplay(cx, cy, {dw, dh, df}) {
     let text1 = '';
     let text2 = '';
     let alpha = 0;
-    let alpha1 = 0;
+    let blur = 100;
     const hideTimeout = 4000;
     const inTweenDuration = 300;
     const inTweenDuration1 = 1200;
@@ -15,7 +15,6 @@ function ResultDisplay(cx, cy, {dw, dh, df}) {
     const h = dh * 4;
     const x = cx - w / 2;
     const y = cy - h / 2;
-
 
     return {
         render,
@@ -27,7 +26,7 @@ function ResultDisplay(cx, cy, {dw, dh, df}) {
 
     function reset() {
         alpha = 0;
-        alpha1 = 0;
+        blur = 100;
         title = '';
     }
 
@@ -42,13 +41,17 @@ function ResultDisplay(cx, cy, {dw, dh, df}) {
             ctx.strokeStyle = COLORS.c4;
             ctx.strokeRect(x, y, w, h);
 
-            ctx.globalAlpha = alpha1;
+            ctx.save();
+            if (blur) {
+                ctx.filter = `blur(${blur}px)`;
+            }
             ctx.fillStyle = COLORS.c3;
             ctx.font = df;
             ctx.fillText(title, cx, cy - dh);
             ctx.font = textFont;
             ctx.fillText(text1, cx, cy);
             ctx.fillText(text2, cx, cy + dh);
+            ctx.restore();
             ctx.restore();
         }
     }
@@ -61,8 +64,8 @@ function ResultDisplay(cx, cy, {dw, dh, df}) {
         [title, text1, text2] = result.split('.');
         const start = {alpha: 0};
         const end = {alpha: 1};
-        const start1 = {alpha1: 0};
-        const end1 = {alpha1: 1};
+        const start1 = {blur: 100};
+        const end1 = {blur: 0};
         tween(start, end, inTweenDuration, EASINGS.IN_CUBIC, onProgress, () => {});
         tween(start1, end1, inTweenDuration1, EASINGS.OUT_CUBIC, onProgress1, onComplete);
 
@@ -71,7 +74,7 @@ function ResultDisplay(cx, cy, {dw, dh, df}) {
         }
 
         function onProgress1() {
-            alpha1 = start.alpha1;
+            blur = Math.round(start1.blur);
         }
 
         function onComplete() {
@@ -80,13 +83,13 @@ function ResultDisplay(cx, cy, {dw, dh, df}) {
     }
 
     function hide() {
-        const start = {alpha: 1, alpha1: 1};
-        const end = {alpha: 0, alpha1: 0};
+        const start = {alpha: 1};
+        const end = {alpha: 0};
         tween(start, end, outTweenDuration, EASINGS.IN_CUBIC, onProgress, reset);
 
         function onProgress() {
             alpha = start.alpha;
-            alpha1 = start.alpha1;
+            blur = start.blur;
         }
     }
 }

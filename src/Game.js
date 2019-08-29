@@ -11,6 +11,7 @@ function Game(world, keyboard, configs) {
         stepHeight,
         digitBlockConfig
     } = configs;
+    const bg = new Background(configs);
     const robot = new Robot();
     const resultDisplay = new ResultDisplay(centerX, centerY, digitBlockConfig);
     const userTexture = createTexture(digitBlockConfig, COLORS.c4, COLORS.c1);
@@ -29,6 +30,7 @@ function Game(world, keyboard, configs) {
         robot.start();
         resultDisplay.reset();
         const guess = robot.getGuess();
+        world.add(bg);
         addGuessInput(guess);
     }
 
@@ -100,6 +102,7 @@ function Game(world, keyboard, configs) {
         input.activate(callback);
         unsubscribe = keyboard.subscribe(input.onKey);
         currentUserInput = input;
+        bg.reset();
     }
 
     function showResult(result) {
