@@ -18,26 +18,28 @@ function getConfigs(bounds) {
             return getRest(digitBlockHeight);
         }
 
-        const digitBlockFont = `bold ${digitBlockHeight * 0.618}px monospace`;
-        const subTitleFS = Math.round(digitBlockWidth * 0.618);
-        const subTitleY = digitBlockWidth * 3;
-        const initBlockY = subTitleY + digitBlockHeight;
+        const stepHeight = Math.round(digitBlockHeight * 1.618);
+        const digitBlockFS = Math.round(digitBlockHeight * 0.618);
+        const subTitleFS = Math.round(digitBlockFS * 0.618);
+        const digitBlockFont = `bold ${digitBlockFS}px monospace`;
+        const subTitleY = digitBlockHeight * 2;
+        const initBlockY = subTitleY + subTitleFS;
         const rightBlockX = centerX + digitBlockWidth;
         const rightBlockX1 = rightBlockX + 5 * digitBlockWidth + 3 * digitBlockGap;
         const leftBlockX = centerX - 5 * digitBlockWidth - 3 * digitBlockGap;
         const leftBlockX1 = leftBlockX - 3 * digitBlockWidth - digitBlockGap;
-        const stepHeight = Math.round(digitBlockHeight  * 1.618);
+
         const staticItems = [
             {
                 Class: Text,
                 config: {
                     text: 'BRING THE NUMBER BACK!',
                     x: centerX,
-                    y: digitBlockWidth,
+                    y: digitBlockHeight,
                     color: COLORS.c5,
                     stroke: COLORS.c2,
                     fontSize: digitBlockWidth,
-                    fontFamily: 'fantasy'
+                    fontFamily: 'Fascinate Inline'
                 }
             },
 
@@ -52,7 +54,7 @@ function getConfigs(bounds) {
                     fontSize: subTitleFS,
                     fontWeight: 'bold',
                     align: 'left',
-                    fontFamily: 'system-ui'
+                    fontFamily: 'Fascinate Inline'
                 }
             },
             {
@@ -66,7 +68,7 @@ function getConfigs(bounds) {
                     fontSize: subTitleFS,
                     fontWeight: 'bold',
                     align: 'right',
-                    fontFamily: 'system-ui'
+                    fontFamily: 'Fascinate Inline'
                 }
             },
             {
@@ -80,7 +82,7 @@ function getConfigs(bounds) {
                     fontSize: subTitleFS,
                     fontWeight: 'bold',
                     align: 'left',
-                    fontFamily: 'system-ui'
+                    fontFamily: 'Fascinate Inline'
                 }
             },
 
@@ -95,7 +97,7 @@ function getConfigs(bounds) {
                     fontSize: subTitleFS,
                     fontWeight: 'bold',
                     align: 'right',
-                    fontFamily: 'system-ui'
+                    fontFamily: 'Fascinate Inline'
                 }
             },
         ];

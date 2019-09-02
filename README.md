@@ -13,9 +13,13 @@ The applied algorithm is proven to get your number in seven steps or less. So, g
 ### Installation
 
 1. Clone the repo
-2. ```npm install```
-3. ```gulp```
+2. ```npm i```
+3. ```npm start```
 4. Enjoy
+
+### Credits
+
+The ambient background animation - https://github.com/crnacura/AmbientCanvasBackgrounds
 
 ### License
 

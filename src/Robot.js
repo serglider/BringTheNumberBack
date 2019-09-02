@@ -13,10 +13,10 @@ function Robot() {
 
     function start() {
         secret = getRandomItems(4, digits);
-        console.log('robot secret is ', secret);
+        // console.log('robot secret is ', secret);
         restPermutations = [...allPermutations];
-        const yoursecret = getRandomItems(4, digits).join('');
-        console.log('your secret is ', yoursecret);
+        // const yoursecret = getRandomItems(4, digits).join('');
+        // console.log('your secret is ', yoursecret);
     }
 
     function handleScore(score) {
