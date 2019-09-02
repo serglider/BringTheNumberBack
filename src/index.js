@@ -13,13 +13,11 @@ function init() {
 }
 
 function go() {
-    keyboard.subscribe(onKey);
     game.start();
     configs.staticItems.forEach(createStaticItem);
 }
 
 function reset() {
-    keyboard.reset();
     world.reset();
 }
 

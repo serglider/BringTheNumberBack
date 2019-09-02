@@ -19,7 +19,7 @@ function getConfigs(bounds) {
         }
 
         const digitBlockFont = `bold ${digitBlockHeight * 0.618}px monospace`;
-        const subTitleFS = Math.round(digitBlockWidth * 0.618);
+        const subTitleFS = Math.round(digitBlockWidth * 0.618 * 0.618);
         const subTitleY = digitBlockWidth * 3;
         const initBlockY = subTitleY + digitBlockHeight;
         const rightBlockX = centerX + digitBlockWidth;
@@ -37,7 +37,7 @@ function getConfigs(bounds) {
                     color: COLORS.c5,
                     stroke: COLORS.c2,
                     fontSize: digitBlockWidth,
-                    fontFamily: 'fantasy'
+                    fontFamily: 'Frijole'
                 }
             },
 
@@ -52,7 +52,7 @@ function getConfigs(bounds) {
                     fontSize: subTitleFS,
                     fontWeight: 'bold',
                     align: 'left',
-                    fontFamily: 'system-ui'
+                    fontFamily: 'Frijole'
                 }
             },
             {
@@ -66,7 +66,7 @@ function getConfigs(bounds) {
                     fontSize: subTitleFS,
                     fontWeight: 'bold',
                     align: 'right',
-                    fontFamily: 'system-ui'
+                    fontFamily: 'Frijole'
                 }
             },
             {
@@ -80,7 +80,7 @@ function getConfigs(bounds) {
                     fontSize: subTitleFS,
                     fontWeight: 'bold',
                     align: 'left',
-                    fontFamily: 'system-ui'
+                    fontFamily: 'Frijole'
                 }
             },
 
@@ -95,7 +95,7 @@ function getConfigs(bounds) {
                     fontSize: subTitleFS,
                     fontWeight: 'bold',
                     align: 'right',
-                    fontFamily: 'system-ui'
+                    fontFamily: 'Frijole'
                 }
             },
         ];

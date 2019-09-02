@@ -27,7 +27,7 @@ gulp.task('reload', function() {
 gulp.task('zip', function() {
     const date = new Date(),
         vers = (date.getMonth() + 1) + '_' + date.getDate();
-    return gulp.src(['dist/*.js', 'index.html'], {
+    return gulp.src(['dist/*.js', 'fonts/*.woff2', 'index.html'], {
             base: '.'
         })
         .pipe(zip('game_' + vers + '.zip'))
@@ -39,10 +39,10 @@ gulp.task('compile', ['clean'], function() {
         .pipe(sourcemaps.init())
         .pipe(concat('g.js'))
         .pipe(uglify())
-        .pipe(sourcemaps.write('.', {
-            includeContent: false,
-            sourceRoot: './src'
-        }))
+        // .pipe(sourcemaps.write('.', {
+        //     includeContent: false,
+        //     sourceRoot: './src'
+        // }))
         .pipe(gulp.dest('./dist'));
 });
 

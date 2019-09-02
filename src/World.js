@@ -60,7 +60,7 @@ function World() {
     }
 
     function clear() {
-        ctx.clearRect(0, 0, canvas.width - 10, canvas.height - 10);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
 
     function update(t) {

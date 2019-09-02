@@ -65,10 +65,6 @@ function Background(configs) {
     function render() {
         if (isVisible) {
             ctx.save();
-            ctx.fillStyle = COLORS.c1;
-            ctx.fillRect(0, 0, width, height);
-            ctx.restore();
-            ctx.save();
             ctx.filter = 'blur(12px)';
             ctx.drawImage(texture, 0, 0);
             ctx.restore();
