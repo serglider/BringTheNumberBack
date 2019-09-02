@@ -37,7 +37,7 @@ function getConfigs(bounds) {
                     color: COLORS.c5,
                     stroke: COLORS.c2,
                     fontSize: digitBlockWidth,
-                    fontFamily: 'Frijole'
+                    fontFamily: 'Fascinate Inline'
                 }
             },
 
@@ -52,7 +52,7 @@ function getConfigs(bounds) {
                     fontSize: subTitleFS,
                     fontWeight: 'bold',
                     align: 'left',
-                    fontFamily: 'Frijole'
+                    fontFamily: 'Fascinate Inline'
                 }
             },
             {
@@ -66,7 +66,7 @@ function getConfigs(bounds) {
                     fontSize: subTitleFS,
                     fontWeight: 'bold',
                     align: 'right',
-                    fontFamily: 'Frijole'
+                    fontFamily: 'Fascinate Inline'
                 }
             },
             {
@@ -80,7 +80,7 @@ function getConfigs(bounds) {
                     fontSize: subTitleFS,
                     fontWeight: 'bold',
                     align: 'left',
-                    fontFamily: 'Frijole'
+                    fontFamily: 'Fascinate Inline'
                 }
             },
 
@@ -95,7 +95,7 @@ function getConfigs(bounds) {
                     fontSize: subTitleFS,
                     fontWeight: 'bold',
                     align: 'right',
-                    fontFamily: 'Frijole'
+                    fontFamily: 'Fascinate Inline'
                 }
             },
         ];
