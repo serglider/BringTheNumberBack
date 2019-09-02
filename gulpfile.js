@@ -3,7 +3,6 @@ const del = require('del');
 const connect = require('gulp-connect');
 const open = require('gulp-open');
 const zip = require('gulp-zip');
-const sourcemaps = require('gulp-sourcemaps');
 const concat = require('gulp-concat');
 const htmlmin = require('gulp-htmlmin');
 const uglify = require('gulp-uglify-es').default;
@@ -26,30 +25,28 @@ gulp.task('reload', function () {
 });
 
 gulp.task('html', () => {
-    return gulp.src('src/*.html')
+    return gulp.src('index.html')
         .pipe(htmlmin({collapseWhitespace: true, minifyCSS: true, removeComments: true}))
-        .pipe(gulp.dest('./'));
+        .pipe(gulp.dest('./build'));
+});
+
+gulp.task('font', () => {
+    return gulp.src('fonts/**')
+        .pipe(gulp.dest('./build'));
 });
 
 gulp.task('zip', function () {
     const date = new Date(),
         vers = (date.getMonth() + 1) + '_' + date.getDate();
-    return gulp.src(['build/*.js', 'fonts/*.woff2', 'index.html'], {
-        base: '.'
-    })
-        .pipe(zip('game_' + vers + '.zip'))
+    return gulp.src('build/**')
+        .pipe(zip('app_' + vers + '.zip'))
         .pipe(gulp.dest('./submission'));
 });
 
-gulp.task('compile', ['clean'], function () {
+gulp.task('compile', ['clean', 'html', 'font'], function () {
     return gulp.src(['./src/*.js'])
-    // .pipe(sourcemaps.init())
         .pipe(concat('app.min.js'))
         .pipe(uglify())
-        // .pipe(sourcemaps.write('.', {
-        //     includeContent: false,
-        //     sourceRoot: './src'
-        // }))
         .pipe(gulp.dest('./build'));
 });
 
@@ -59,7 +56,7 @@ gulp.task('watch', function () {
 
 gulp.task('open', function () {
     gulp.src('').pipe(open({
-        uri: 'http://localhost:8080'
+        uri: 'http://localhost:8080//build/index.html'
     }));
 });
 
