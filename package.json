@@ -1,5 +1,5 @@
 {
-  "name": "back-todo",
+  "name": "bring-the-number-back",
   "version": "1.0.0",
   "description": "game - an entry for 2019 js13k contest",
   "main": "",
@@ -10,7 +10,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/serglider/ArithmeticHunt"
+    "url": "https://github.com/serglider/BringTheNumberBack"
   },
   "devDependencies": {
     "del": "^5.0.0",
